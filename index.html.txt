@@ -1,0 +1,854 @@
+<style>
+#wixSleepApp{
+  font-family: Georgia, serif;
+  background:#f4f1ea;
+  padding:140px 50px;
+min-height:2200px;
+  color:#1a1a1a;
+}
+
+.container{max-width:1050px;margin:auto;}
+
+h1{font-size:58px;margin-bottom:30px;}
+h2{font-size:38px;margin:70px 0 10px;}
+.subtitle{font-size:20px;color:#666;margin-bottom:40px;}
+
+p{font-size:22px;line-height:1.8;margin-bottom:25px;}
+
+button{
+  font-size:21px;
+  padding:18px 28px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  background:white;
+  cursor:pointer;
+  width:100%;
+}
+
+button:hover{background:#e8e3d8;}
+
+.primary{
+  background:#bfa65a;
+  color:white;
+  border:none;
+
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight:500;
+  font-size:21px;
+  letter-spacing:0.2px;
+}
+
+.primary:hover{background:#a68d47;}
+
+.screen{display:none;}
+.screen.active{display:block;}
+
+.podium{
+  display:flex;
+  justify-content:center;
+  gap:50px;
+  margin:100px 0;
+  flex-wrap:wrap;
+}
+.podium-item{
+  background:white;
+  padding:30px;
+  border-radius:12px;
+  width:240px;
+  text-align:center;
+}
+.rank1{transform:scale(1.1);border:3px solid #bfa65a;}
+
+.cover{
+  width:100%;
+  aspect-ratio:2/3;
+  object-fit:cover;
+  border-radius:6px;
+  margin-bottom:15px;
+}
+
+.highlight-box .cover{
+  width:240px;
+  height:auto;
+  border-radius:10px;
+  box-shadow:0 12px 30px rgba(0,0,0,0.12);
+  flex-shrink:0;
+}
+
+.expand-box{
+  background:white;
+  padding:35px;
+  border-radius:10px;
+  margin:20px 0;
+  display:none;
+}
+
+.highlight-box{
+  display:flex;
+  gap:50px;
+  align-items:flex-start;
+  background:white;
+  padding:50px;
+  border-left:6px solid #bfa65a;
+  margin-top:100px;
+}
+
+.cta-row{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:30px;
+  flex-wrap:wrap;
+  margin-top:30px;
+text-align:center;
+}
+
+.loading{
+  text-align:center;
+  margin-top:200px;
+}
+
+.zzz{
+  font-size:160px;
+  font-weight:bold;
+  letter-spacing:15px;
+  animation:fadePulse 1.2s infinite;
+}
+
+@keyframes fadePulse{
+  0%{opacity:0.3;}
+  50%{opacity:1;}
+  100%{opacity:0.3;}
+}
+
+a{
+  font-weight:bold;
+  text-decoration:underline;
+  color:#1a1a1a;
+}
+
+.cta-button{
+background:#bfa65a;
+color:white;
+padding:18px 48px;
+font-size:20px;
+text-decoration:none;
+border-radius:8px;
+display:inline-block;
+font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+font-weight: 700;
+letter-spacing: 0.5px;
+
+}
+
+
+.cta-button:hover{
+  background:#333;
+}
+
+@media(max-width:768px){
+  .highlight-box{
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+  }
+
+  .highlight-box img.cover{
+    width:200px;
+  }
+}
+
+.highlight-content{
+  flex:2;
+}
+
+.answered-title{
+  font-size:22px;
+  font-weight:bold;
+  margin-bottom:15px;
+}
+
+.recommend-label{
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.recommend-title{
+  font-size:20px;
+  color:#bfa65a;
+  margin-bottom:20px;
+}
+
+.gold-link{
+  color:#bfa65a;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.gold-link:hover{
+  text-decoration:underline;
+}
+
+</style>
+
+<div id="wixSleepApp">
+<div class="container">
+
+<!-- PAGE 0 -->
+<div class="screen active" id="page0">
+<h1>Your Free Personal Sleep Assessment</h1>
+<p>In this short one-minute assessment, you will be asked five simple questions to understand your current sleep quality, patterns, and needs. This will help to determine what direction, information, and options are most suitable for you.</p>
+<button class="primary" id="beginBtn">Begin Assessment</button>
+</div>
+
+<!-- PAGE 1 -->
+<div class="screen" id="page1">
+<h2>What is most characterising your sleep issues?</h2>
+<div class="subtitle">Pick the most relevant</div>
+<button onclick="selectAnswer('challenge','falling')">Trouble falling asleep</button>
+<button onclick="selectAnswer('challenge','waking')">Waking up in the night</button>
+<button onclick="selectAnswer('challenge','pills')">Needing pills or drugs to sleep, e.g. alcohol, cannabis, or sleeping pills</button>
+<button onclick="selectAnswer('challenge','optimise')">No specific problem: I just want to improve and optimise</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="screen" id="page2">
+<h2>What is your sex/gender?</h2>
+<button onclick="selectAnswer('identity','male')">Male</button>
+<button onclick="selectAnswer('identity','female')">Female</button>
+<button onclick="selectAnswer('identity','trans')">Trans / Non-Binary / Other</button>
+<button onclick="selectAnswer('identity','none')">Prefer not to say</button>
+</div>
+
+<!-- PAGE 3 -->
+<div class="screen" id="page3">
+<h2>What am I doing most days?</h2>
+<div class="subtitle">Pick as many as you like</div>
+
+<button onclick="toggleMulti(this,'bedtime')">Inconsistent bedtimes</button>
+<button onclick="toggleMulti(this,'caffeine')">Drinking caffeine</button>
+<button onclick="toggleMulti(this,'substances')">Consuming alcohol, nicotine, and/or cannabis</button>
+<button onclick="toggleMulti(this,'junk')">Eating lots of junk food, snacks, or takeaways</button>
+<button onclick="toggleMulti(this,'screens')">Watching screens until late</button>
+<button onclick="toggleMulti(this,'latefood')">Eating late</button>
+<button onclick="toggleMulti(this,'stress')">Feeling stressed, anxious, and/or lonely</button>
+<button onclick="toggleMulti(this,'winddown')">Getting into bed straight after working, eating, exercising, or looking at screens (no wind-down routine)</button>
+<button onclick="toggleMulti(this,'inside')"> Staying inside all day (not much sunshine or exercise)</button>
+
+<button class="primary" onclick="nextPage(4)">Continue</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="screen" id="page4">
+<h2>Where are you on your sleep journey? What have you done to educate yourself?</h2>
+<button onclick="selectAnswer('journey','beginner')">I don't know much yet. I just know my sleep isn't working.</button>
+<button onclick="selectAnswer('journey','research')">I've done some basic research, but I’m still stuck</button>
+<button onclick="selectAnswer('journey','expert')">I've read a lot, watched videos, talked to doctors, tried almost everything—and still can't sleep well</button>
+<button onclick="selectAnswer('journey','childhood')">I’ve been suffering with sleep issues since childhood</button>
+<button onclick="selectAnswer('journey','optimiser')">I'm sleeping pretty well, but I want to take it to the next level now</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="screen" id="page5">
+<h2>What are you most looking for right now?</h2>
+<button onclick="selectAnswer('expectation','cause')">I want to understand what's actually causing my sleep issues, so I can fix them properly</button>
+<button onclick="selectAnswer('expectation','offpills')">I want to get off pills so I can sleep naturally</button>
+<button onclick="selectAnswer('expectation','longterm')">I want a long-term solution—something that fixes my sleep once and for all</button>
+<button onclick="selectAnswer('expectation','quickfix')">I want a quick fix—something that helps me sleep now</button>
+</div>
+
+<!-- LOADING -->
+<div class="screen" id="loading">
+<div class="loading">
+<div id="zzz" class="zzz">Z</div>
+</div>
+</div>
+
+<!-- RESULTS -->
+<div class="screen" id="results">
+<h1>Your Personalised Sleep Plan</h1>
+
+<div id="podium" class="podium"></div>
+
+<div id="answers"></div>
+
+<div class="highlight-box">
+  <img id="topImage" class="cover" src="">
+
+  <div class="highlight-content">
+<h2 class="recommend-label">Most Recommended Read</h2>
+<h3 id="topTitle" class="recommend-title"></h3>
+    <p id="topDesc"></p>
+
+    <div class="cta-row">
+      <a id="topLink" class="cta-button" target="_blank">Read Now</a>
+    </div>
+  </div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+var scores={five:0,guide:0,pills:0,women:0,binary:0,eat:0,coffee:0,trauma:0,train:0,neuro:0,energy:0};
+var answers={protocols:[]};
+
+function nextPage(n){show("page"+n);}
+function show(id){
+ document.querySelectorAll(".screen").forEach(function(s){
+   s.classList.remove("active");
+ });
+
+ var el = document.getElementById(id);
+
+ if(el){
+   el.classList.add("active");
+ } else {
+   console.error("Page not found:", id);
+ }
+}
+
+function selectAnswer(type,val){
+
+  answers[type] = val;
+  score(type,val);
+
+  if(type === "challenge"){
+    nextPage(2);
+  }
+
+  if(type === "identity"){
+    nextPage(3);
+  }
+
+  if(type === "journey"){
+    nextPage(5);
+  }
+
+  if(type === "expectation"){
+    show("loading");
+    animateZ();
+    setTimeout(showResults,4500);
+  }
+}
+
+function toggleMulti(btn,key){
+
+ if(btn.dataset.sel==="1"){
+
+  btn.dataset.sel="0";
+  btn.style.background="white";
+
+  // remove from answers array
+  answers.protocols = answers.protocols.filter(function(k){
+    return k !== key;
+  });
+
+  // subtract score
+  descore("protocol", key);
+
+ }else{
+
+  btn.dataset.sel="1";
+  btn.style.background="#ddd";
+
+  if(!answers.protocols.includes(key)){
+    answers.protocols.push(key);
+    score("protocol",key);
+  }
+ }
+}
+
+function score(type,val){
+ if(type==="challenge"){
+  if(val==="falling"||val==="waking") scores.five+=2;
+  if(val==="pills") scores.pills+=4;
+  if(val==="optimise") scores.guide+=3;
+ }
+ if(type==="identity"){
+  if(val==="male"){
+scores.guide += 1;
+scores.trauma += 3;
+}
+  if(val==="female"){
+scores.women += 4;
+scores.trauma += 2;
+}
+  if(val==="trans"){
+scores.binary += 8;
+scores.trauma += 3;
+scores.neuro += 2;
+}
+}
+ if(type==="protocol"){
+  if(val==="caffeine") scores.coffee+=2;
+  if(val==="junk"||val==="latefood") scores.eat+=2;
+  if(val==="substances"||val==="bedtime"||val==="screens"||val==="winddown"||val==="inside"||val==="stress") scores.guide+=1;
+ }
+ if(type==="journey"){
+  if(val==="beginner") scores.five+=2;
+  if(val==="research") scores.five+=2;
+  if(val==="expert") scores.guide+=2;
+  if(val==="childhood") scores.trauma+=8;
+  if(val==="optimiser") scores.guide+=2;
+ }
+ if(type==="expectation"){
+  if(val==="cause") scores.five+=2;
+  if(val==="offpills") scores.pills+=8;
+  if(val==="longterm") scores.guide+=1;
+  if(val==="quickfix") scores.guide+=1;
+ }
+}
+
+
+function descore(type,val){
+ if(type==="protocol"){
+  if(val==="caffeine") scores.coffee-=2;
+  if(val==="junk"||val==="latefood") scores.eat-=2;
+  if(val==="substances"||val==="bedtime"||val==="screens"||val==="winddown"||val==="inside"||val==="stress") scores.guide-=1;
+ }
+}
+
+
+function animateZ(){
+ var el=document.getElementById("zzz");
+ var states=["Z","ZZ","ZZZ"];
+ var i=0;
+ var interval=setInterval(function(){
+  el.innerHTML=states[i%3];
+  i++;
+ },600);
+ setTimeout(function(){clearInterval(interval);},4400);
+}
+
+function showResults(){
+ show("results");
+
+ var items=[
+{
+k:"five",
+t:"(Free PDF) The Five Fingers of Insomnia: The Roots of Insomnia Made Simple",
+url:"https://thesleepyemporium.com/five-fingers",
+img:"https://static.wixstatic.com/media/aa211c_a16e953646be4e82bfbae656afba0cd2~mv2.jpg",
+desc:"The Five Fingers of Insomnia is the first and strongest starting point for those who could do with some guidance and orientation in understanding the probable causes of their sleep troubles. A short PDF that will give you strong foundations in self-understanding, so that you know where to take your next step."
+},
+  {
+k:"guide",
+t:"(Sleep Guidebook) I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep",
+url:"https://www.thesleepyemporium.com/book",
+img:"https://static.wixstatic.com/media/aa211c_309e8353b9314cfea68fa8f2aadf36b2~mv2.png",
+desc:"‘I Can’t Sleep’ provides a crash course in sleep expertise, helping you understand every angle that insomnia could be coming from. From diet to psychology and everything in between, give yourself a long-term strategy for natural, effortless sleep."
+},
+  {
+k:"pills",
+t:"(PDF) The Sleeping Pill Survival Guide: How to Get Off Sleeping Pills and Sleep Drug-Free",
+url:"https://www.thesleepyemporium.com/sleeping-pill-survival-guide",
+img:"https://static.wixstatic.com/media/aa211c_5b641802c18a4bd6902777a910113ab1~mv2.png",
+desc:"If you’ve been taking sleeping pills or have deep-rooted chronic insomnia, The Sleeping Pill Survival Guide will help you wean off the chemicals and provide clean, powerful strategy for long-term natural sleeping."
+},
+  {
+k:"women",
+t:"(PDF) Women & Sleep: Sleep Formula for Women",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_6d18693908804163b7d9b3c52f1aa5db~mv2.jpg",
+desc:"For women of all ages, shapes, and sizes, learning just a little about your hormones and neurobiology will help you to look after yourself and get back to sleep in the most difficult of times. This PDF is a sensitive, thoughtful guide for compassionate self-understanding while also delivering powerful, precise strategy."
+},
+  {
+k:"binary",
+t:"(PDF) Beyond the Binary: Sleep Support for Trans & Non-Binary Individuals",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_1002b944d8264798a52d33535ba05cde~mv2.jpg",
+desc:"For those who don’t fit into a box, Rest Beyond the Binary is your thoughtful, compassionate guide to better sleeping. Learn what may be holding you back from sleep as a unique individual with unique needs."
+},
+  {
+k:"eat",
+t:"(PDF) Eat Yourself to Sleep: Diet, Snacks & Eating Routines for Smoother Sleeping",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_eb5c5a952c7d42a595b922c16751cde4~mv2.jpg",
+desc:"What and when you’re eating could be affecting your sleep more than you know. A must-read for anyone with chronic sleep issues, this PDF provides core information and strategy for better sleeping, better health, and even better energy and mood."
+},
+  {
+k:"coffee",
+t:"(PDF) The Coffee Drinker’s Guide to Better Sleep",
+url:"https://www.thesleepyemporium.com/coffee",
+img:"https://static.wixstatic.com/media/aa211c_e0ddee2c2daf40c7872dbd0e31854eb8~mv2.png",
+desc:"For those who love sleep but who also love their caffeine, The Coffee Drinker’s Guide to Better Sleep is the good news you’ve been waiting for. Don’t give up your mug; just drink smarter. This PDF will show you how."
+},
+  {
+k:"trauma",
+t:"(PDF) Sleeping Through: Anxiety, Stress, and Trauma",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_c4700c4e674f4158a736e266e61d685a~mv2.jpg",
+desc:"If you’ve been suffering with chronic sleep issues for quite some time, this is your must-read PDF. Even if you don’t consider yourself a person with trauma, this guide helps you understand some of the biggest and deepest questions around sleep disruption."
+},
+  {
+k:"train",
+t:"(PDF) Catching the Sleep Train: Rhythms, Timing & Midnight Strategy",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_17dd99b49e7e46e78d4717495ad5f6da~mv2.jpg",
+desc:"Timing and hormone rhythms are critical to understand if you want effortless, immediate sleep. A PDF for everyone, this is especially good reading for those who wake up in the night or who take a long time to fall asleep."
+},
+  {
+k:"neuro",
+t:"(PDF) Neurodivergent Sleeping: Restful Sleep for ADHD, Autism, and Unique Brains",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_1ee4603d56834b87b7dc4096e11c890f~mv2.jpg",
+desc:"Special brains need special methods. This PDF delivers specialised strategy to neurodivergent individuals or those who are a little more particular with their sleep."
+},
+  {
+k:"energy",
+t:"(PDF) The Energetics of Sleep: Sensitive Tools for Sensitive Sleepers",
+url:"https://www.thesleepyemporium.com/information",
+img:"https://static.wixstatic.com/media/aa211c_8752c2c3cc82440bbc43f039a5acf2a9~mv2.jpg",
+desc:"For extra-sensitive sleepers, this PDF provides special insight into electromagnetic influences, plus how to use the innate power of body and other sensitive instruments."
+}
+
+ ];
+
+items.sort(function(a,b){
+  return (scores[b.k] || 0) - (scores[a.k] || 0);
+});
+
+ var podium=document.getElementById("podium");
+ podium.innerHTML="";
+ for(var i=0;i<3;i++){
+  var div=document.createElement("div");
+  div.className="podium-item"+(i===0?" rank1":"");
+  div.innerHTML=
+'<img class="cover" src="'+items[i].img+'">'+
+"<h2>#"+(i+1)+"</h2>"+
+"<p><a href='"+items[i].url+"' target='_blank'>"+items[i].t+"</a></p>";
+  podium.appendChild(div);
+ }
+
+document.getElementById("topTitle").innerHTML =
+"<a class='gold-link' href='"+items[0].url+"' target='_blank'>"+items[0].t+"</a>";
+
+document.getElementById("topImage").src = items[0].img;
+document.getElementById("topDesc").innerHTML = items[0].desc;
+document.getElementById("topLink").href = items[0].url;
+/* ===============================
+   ANSWERS SECTION INSERT
+   =============================== */
+
+var answersDiv = document.getElementById("answers");
+answersDiv.innerHTML = "";
+
+// Helper to create expandable section
+function addAnswerBlock(questionTitle, answerHTML){
+  var wrapper = document.createElement("div");
+
+  var title = document.createElement("h2");
+  title.innerText = questionTitle;
+
+  var btn = document.createElement("button");
+  btn.innerText = "Click here to reveal recommendations";
+  btn.className = "primary";
+  btn.style.marginTop = "16px";
+
+  var box = document.createElement("div");
+  box.className = "expand-box";
+  box.innerHTML = answerHTML;
+
+  btn.onclick = function(){
+    box.style.display = box.style.display === "block" ? "none" : "block";
+  };
+
+  wrapper.appendChild(title);
+  wrapper.appendChild(btn);
+  wrapper.appendChild(box);
+
+  answersDiv.appendChild(wrapper);
+}
+
+
+/* ---- QUESTION 1 ---- */
+if(answers.challenge){
+
+var content =
+"<h3 class='answered-title'>You answered: " +
+getLabel('challenge', answers.challenge) +
+"</h3>";
+
+if(answers.challenge === "falling"){
+content +=
+"<p>Your main challenge is you’re having <strong>trouble falling asleep</strong>. This is the most common difficulty in the insomnia community, and is often to do with overstimulation, nervous system dysregulation, and/or routine or dietary miscalculations.</p>" +
+"<p>To begin to settle your brain and nervous system, your starting point should be: <strong><a href='https://thesleepyemporium.com/five-fingers' target='_blank'>(Free PDF) The Five Fingers of Insomnia</a></strong></p>";
+}
+
+if(answers.challenge === "waking"){
+content +=
+"<p>Your biggest problem is you’re <strong>waking up in the night</strong>, but the thing that frustrates you most? You don’t know why. It’s somewhere between 2 and 4 o’clock in the morning and you’re wide awake. Frustration is building, and all you want is to get back to sleep. You know you’re going to be exhausted in the morning, but there’s nothing you can do. Or is there…</p>" +
+"<p>If you can get to sleep but can’t stay asleep, it’s likely to do with a <strong>chemical imbalance</strong> in your body. As the night progresses, cortisol can rise and melatonin can drop. Your first port of call should be to check your diet, routines, and stress levels.</p>" +
+"<p>Your recommended starting point is: <strong><a href='https://thesleepyemporium.com/five-fingers' target='_blank'>(Free PDF) The Five Fingers of Insomnia</a></strong></p>";
+}
+
+if(answers.challenge === "pills"){
+content +=
+"<p>There ain’t no shame in using sleeping pills or substances like weed or alcohol to sleep. But here’s the truth: these can have a negative impact on your ability to sleep naturally over time. You know it’s not a good habit—a crutch you could do without. But what can you do?</p>" +
+"<p>A combination of <strong>insight and strategy</strong> is the perfect mix to distance yourself from the chemical world. Your starting point should be: <strong><a href='https://thesleepyemporium.com/sleeping-pill-survival-guide' target='_blank'>(PDF) The Sleeping Pill Survival Guide</a></strong></p>";
+}
+
+if(answers.challenge === "optimise"){
+content +=
+"<p>So, you’re already a decent sleeper, eh? If you want to leave the rookie league and go pro, you’ll need an expert guide.</p>" +
+"<p>Your starting point should be: <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep</a></strong>. There, you’ll master sleep psychology, refine your routines, and learn pro tips and cutting-edge sleep theory.</p>" +
+"<p>Soon to be published <strong>Sleep Like A Professional</strong> might be even better for you. <a href='https://thesleepyemporium.com/subscribe' target='_blank'><strong>Subscribe to the mailing list</strong></a> to be the first to know when it’s available for purchase.</p>";
+}
+
+addAnswerBlock(
+"What is most characterising your sleep issues?",
+content
+);
+}
+
+/* ---- QUESTION 2 ---- */
+if(answers.identity){
+
+var content =
+  "<h3 class='answered-title'>You answered: " +
+  getLabel('identity', answers.identity) +
+  "</h3>";
+
+  if(answers.identity === "male"){
+    content +=
+    "<p><strong>Male</strong></p>" +
+    "<p>As guys, we often get complacent about our routines and mindset...</p>" +
+    "<p>For anyone suffering with chronic stress, anxiety, or trauma, it’s recommended to check out the PDF below — <strong><a href='https://thesleepyemporium.com/information' target='_blank'>Sleeping Through: Stress, Anxiety, and Trauma</a></strong> (coming soon).</p>" +
+    "<p>Your power tool for improving your sleep is: <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep</a></strong></p>";
+  }
+
+  if(answers.identity === "female"){
+    content +=
+    "<p><strong>Female</strong></p>" +
+    "<p>Being a woman can be difficult, and the world of sleep is no exception...</p>" +
+    "<p>The PDF <strong><a href='https://thesleepyemporium.com/information' target='_blank'>Sleep Formula for Women</a></strong> (coming soon)...</p>" +
+    "<p>And if stress, anxiety, or trauma are part of your story, <strong><a href='https://thesleepyemporium.com/information' target='_blank'>Sleeping Through: Stress, Anxiety, and Trauma</a></strong> (coming soon).</p>";
+  }
+
+  if(answers.identity === "trans"){
+    content +=
+    "<p><strong>Trans / Non-Binary / Other</strong></p>" +
+    "<p>Sleep disruption disproportionately affects trans, non-binary, and gender-diverse people...</p>" +
+    "<p><strong><a href='https://thesleepyemporium.com/information' target='_blank'>Rest Beyond the Binary: Sleep Support for Trans & Gender-Diverse People</a></strong> (coming soon)</p>" +
+    "<p><strong><a href='https://thesleepyemporium.com/information' target='_blank'>Sleeping Through: Stress, Anxiety, and Trauma</a></strong> (coming soon)</p>" +
+    "<p><strong><a href='https://thesleepyemporium.com/information' target='_blank'>Neurodivergent Sleeping</a></strong> (coming soon)</p>";
+  }
+
+  if(answers.identity === "none"){
+    content +=
+    "<p><strong>Prefer not to say</strong></p>" +
+    "<img src='https://static.wixstatic.com/media/aa211c_9016c02c41e844ab91c6a996bf8a5928~mv2.gif' style='width:900px;max-width:100%;margin:20px auto;display:block;'>"
+  }
+
+  addAnswerBlock(
+"What is your sex/gender?",
+content
+);
+}
+
+/* ---- QUESTION 3 (MULTI – SEPARATE BLOCKS PER SELECTION) ---- */
+
+if(answers.protocols && answers.protocols.length){
+
+var content =
+"<h3 class='answered-title'>Your selected habits:</h3>";
+  answers.protocols.forEach(function(choice){
+
+    if(choice === "bedtime"){
+      content += "<p><strong>Inconsistent bedtimes</strong><br>Recommended reading: the <strong>“Bedtime”</strong> and <strong>“Sleep Chronotypes”</strong> sections in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+
+    if(choice === "caffeine"){
+      content += "<p><strong>Drinking caffeine</strong><br>Recommended reading: <strong><a href='https://thesleepyemporium.com/coffee' target='_blank'>(PDF) The Coffee Drinker’s Guide to Better Sleep</a></strong></p>";
+    }
+
+    if(choice === "substances"){
+      content += "<p><strong>Consuming alcohol, nicotine, and/or cannabis</strong><br>Recommended reading: the <strong>“Substances”</strong> section in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+
+    if(choice === "junk"){
+      content += "<p><strong>Eating lots of junk food</strong><br>Recommended reading: <strong><a href='https://thesleepyemporium.com/information' target='_blank'>(PDF) Eat Yourself to Sleep</a></strong></p>";
+    }
+
+    if(choice === "screens"){
+      content += "<p><strong>Watching screens until late</strong><br>Recommended reading: the <strong>“Light”</strong> and <strong>“Dopamine”</strong> sections in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+
+    if(choice === "latefood"){
+      content += "<p><strong>Eating late</strong><br>Recommended reading: <strong><a href='https://thesleepyemporium.com/information' target='_blank'>(PDF) Eat Yourself to Sleep</a></strong></p>";
+    }
+
+    if(choice === "winddown"){
+      content += "<p><strong>No wind-down routine</strong><br>Recommended reading: the <strong>“Dopamine: The Sleep Killer”</strong> section in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+
+    if(choice === "inside"){
+      content += "<p><strong>Staying inside all day</strong><br>Recommended reading: the <strong>“Routine”</strong> chapter in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+
+    if(choice === "stress"){
+      content += "<p><strong>Feeling stressed, anxious, and/or lonely</strong><br>Recommended reading: <strong>“The Sleep Mind: Psychology & Strategy”</strong> section in sleep guidebook <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep</a></strong></p>";
+    }
+});
+
+  addAnswerBlock(
+"What am I doing most days?",
+content
+);
+}
+
+
+/* ---- QUESTION 4 ---- */
+if(answers.journey){
+
+var content =
+  "<h3 class='answered-title'>You answered: " +
+  getLabel('journey', answers.journey) +
+  "</h3>";
+
+  if(answers.journey === "beginner"){
+    content +=
+    "<p>I used to be in your exact position. I was sleeping and I didn’t know why. I would lie awake in bed wondering, frustrated I couldn’t do something so basic that I used to be able to do so effortlessly. But don’t worry, you’re right where you’re meant to be. The first step in overcoming insomnia is <strong>learning about it</strong>. You don’t need pills; you need insight.</p>" +
+    "<p>Your recommended first step is reading: <strong><a href='https://thesleepyemporium.com/five-fingers' target='_blank'>(Free PDF) The Five Fingers of Insomnia</a></strong></p>";
+  }
+
+  if(answers.journey === "research"){
+    content +=
+    "<p>You’ve begun on your journey of self-education—and going the right direction. It’s likely you’ve heard a few tips and tricks from people online or from your colleague, family, or doctor—some melatonin, vitamins, tea, maybe even sleeping pills… But none of these addresses the reason you have sleep issues in the first place. <strong>It’s time to go deeper.</strong></p>" +
+    "<p>Your most powerful next step: <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep</a></strong></p>";
+  }
+
+  if(answers.journey === "expert"){
+    content +=
+    "<p>It can be frustrating to have put time into something and not see significant results. That doesn’t mean that it’s fruitless to keep trying—the solution exists; you just haven’t discovered what’s impacting YOU. Most GPs are clueless on sleep, and while famous sleep scientists have interesting things to say, they aren’t there with you to discuss what might be actually wrong.</p>" +
+    "<p>Your next best step is to sink your teeth into something that’s going to change your perspective on sleep, providing <strong>strong guidance and unbeatable strategy</strong>. Your recommended reading is: <strong><a href='https://thesleepyemporium.com/book' target='_blank'>I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep</a></strong></p>";
+  }
+
+  if(answers.journey === "childhood"){
+    content +=
+    "<p>This is one of the toughest situations to be in, where you’ve suffered with sleep problems for so long that it’s hard to remember when sleep came so sweetly. This is usually beyond regular sleep advice and requires special attention.</p>" +
+    "<p>The reason for this is because your brain has <strong>neurologically adapted to undersleeping</strong>, often to do with unrecognised childhood trauma. But don’t worry, you’re not broken! With some clever psychology and some self-support, you can rekindle your relationship with sleep without pills or extensive therapy.</p>" +
+    "<p><strong><a href='https://thesleepyemporium.com/information' target='_blank'>Sleeping Through: Stress, Anxiety, and Trauma</a></strong> (coming soon)</p>";
+  }
+
+  if(answers.journey === "optimiser"){
+    content +=
+    "<p>Alright hot shot, let’s get professional then!</p>" +
+    "<p>You say your sleep is already pretty good—you can fall asleep without too much trouble, and stay asleep for most of the night. Maybe you’re waking up earlier than you’d like, are a little inconsistent, or you experience a little restlessness here and there.</p>" +
+    "<p>For someone who’s already doing things pretty well, you should be looking to <strong>cover all bases now</strong>—knowing insomnia’s every angle of attack. You’ll be pleased to know there’s deeper strategy and further reading available.</p>" +
+    "<p>Check out all our available PDFs and books. (More books and bundles coming soon.) <a href='https://thesleepyemporium.com/subscribe' target='_blank'><strong>Subscribe to stay posted on updates, deals, and new releases</strong></a></p>";
+  }
+
+  addAnswerBlock(
+"Where are you on your sleep journey? What have you done to educate yourself?",
+content
+);
+}
+
+/* ---- QUESTION 5 ---- */
+if(answers.expectation){
+
+var content =
+  "<h3 class='answered-title'>You answered: " +
+  getLabel('expectation', answers.expectation) +
+  "</h3>";
+
+  if(answers.expectation === "cause"){
+    content +=
+    "<p>This is the <strong>most powerful and permanent</strong> way to address your sleep issues. When it comes to sleep disruption, conscious awareness is the best tool you could have—and it’s attained through learning.</p>" +
+    "<p>If you’re just starting out, you might enjoy some lighter reading—the free PDF <strong><a href='https://thesleepyemporium.com/information' target='_blank'>The Five Fingers of Insomnia</a></strong>.</p>" +
+    "<p>If you want to cut straight to the big solutions, understanding everything in depth, check out the book <strong><a href='https://thesleepyemporium.com/information' target='_blank'>I Can’t Sleep</a></strong></p>";
+  }
+
+  if(answers.expectation === "offpills"){
+    content +=
+    "<p>This is one of the more difficult goals to achieve, and doctors likely won’t be much help.</p>" +
+    "<p>For this, we’ve crafted a specific PDF called <strong><a href='https://thesleepyemporium.com/information' target='_blank'>The Sleeping Pill Survival Guide</a></strong>, which will help guide you through the strategy and mindset for getting back to <strong>natural, unaided sleep</strong>.</p>";
+  }
+
+  if(answers.expectation === "longterm"){
+    content +=
+    "<p>For permanent, natural sleep, it’s best to have patience and <strong>play the long game</strong>. No pills, no machines, just pure natural sleep so you can lie down anytime, anywhere, and drift off effortlessly.</p>" +
+    "<p>For this, your smartest solution is to learn about a broad range of stimuli and reasons for sleep disruption.</p>" +
+    "<p>Your recommended next step is picking up <strong><a href='https://thesleepyemporium.com/information' target='_blank'>I Can’t Sleep: A Condensed Guide to Reclaiming Your Sleep</a></strong></p>";
+  }
+
+  if(answers.expectation === "quickfix"){
+    content +=
+    "<p>For a quick and simple solution that doesn’t involve prescription pills, your recommended option is to check out some of the products and tools we have on this website.</p>" +
+    "<p>From powerful supplements to modern sleep equipment, you might find that things like a <strong>blackout sleep mask</strong>, <strong>quality bedsheets</strong>, or some <strong>red light therapy</strong> will be a gamechanger in finding rest.</p>" +
+    "<p><a href='https://thesleepyemporium.com/information' target='_blank'><strong>Click here to browse our product categories</strong></a></p>";
+  }
+
+  addAnswerBlock(
+"What are you most looking for right now?",
+content
+);
+}
+
+function getLabel(type,value){
+
+  var labels = {
+    challenge:{
+      falling:"Trouble falling asleep",
+      waking:"Waking up in the night",
+      pills:"Needing pills or drugs to sleep",
+      optimise:"No specific problem: I just want to improve and optimise"
+    },
+    identity:{
+      male:"Male",
+      female:"Female",
+      trans:"Trans / Non-Binary / Other",
+      none:"Prefer not to say"
+    },
+    journey:{
+      beginner:"I don't know much yet. I just know my sleep isn't working.",
+      research:"I've done some basic research, but I’m still stuck",
+      expert:"I've read a lot, watched videos, talked to doctors, tried almost everything—and still can't sleep well",
+      childhood:"I’ve been suffering with sleep issues since childhood",
+      optimiser:"I'm sleeping pretty well, but I want to take it to the next level now"
+    },
+    expectation:{
+      cause:"I want to understand what's actually causing my sleep issues",
+      offpills:"I want to get off pills so I can sleep naturally",
+      longterm:"I want a long-term solution",
+      quickfix:"I want a quick fix—something that helps me sleep now"
+    }
+  };
+
+  return labels[type][value] || value;
+}
+
+window.onload = function() {
+
+  var beginBtn = document.getElementById("beginBtn");
+
+  if(beginBtn){
+    beginBtn.onclick = function(){
+      nextPage(1);
+    };
+  }
+
+};
+
+window.onload = function() {
+
+  var beginBtn = document.getElementById("beginBtn");
+
+  console.log("Button found?", beginBtn);
+
+  if(beginBtn){
+    beginBtn.onclick = function(){
+      console.log("Begin clicked");
+      nextPage(1);
+    };
+  }
+
+};
+
+</script>
