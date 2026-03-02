@@ -824,32 +824,16 @@ function getLabel(type,value){
   return labels[type][value] || value;
 }
 
-window.onload = function() {
+document.addEventListener("DOMContentLoaded", function() {
 
   var beginBtn = document.getElementById("beginBtn");
 
   if(beginBtn){
-    beginBtn.onclick = function(){
+    beginBtn.addEventListener("click", function(){
       nextPage(1);
-    };
+    });
   }
 
-};
-
-window.onload = function() {
-
-  var beginBtn = document.getElementById("beginBtn");
-
-  console.log("Button found?", beginBtn);
-
-  if(beginBtn){
-    beginBtn.onclick = function(){
-      console.log("Begin clicked");
-      nextPage(1);
-    };
-  }
-
-};
+});
 
 </script>
-
